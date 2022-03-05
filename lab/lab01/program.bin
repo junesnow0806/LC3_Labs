@@ -1,0 +1,15 @@
+0011 000000000000     ;start the program at x3000
+0101 000 000 1 00000  ;x3000--clear R0, to be used for returning the result
+0101 001 001 1 00000  ;x3001--clear R1, to be used as a counter
+0010 000 011111101    ;x3002--LD:load R0 with the contents of x3100, which is the initial bit pattern
+0010 001 011111101    ;x3003--LD:load R1 with the contents of x3101, which is the rotate amount
+0101 011 000 0 00 010 ;x3004--R0 AND R2(required to pre-store "x8000"), then store the result into R3, juding whether the top digit of R0 is 0
+0000 010 000000011    ;x3005--if z==1, jump to x3009
+0001 000 000 0 00 000 ;x3006--R0 <= R0*2
+0001 000 000 1 00001  ;x3007--R0 <= R0+1
+0000 111 000000001    ;x3008--skip x3009
+0001 000 000 0 00 000 ;x3009--R0 <= R0*2
+0001 001 001 1 11111  ;x300A--R1 <= R1-1
+0000 001 111111000    ;x300B--jump to x3004 if the counter is not yet zero
+0111 000 100 000000   ;x300C--store the contents of R0 into x3102, which is the content of R4
+1111 0000 00100101    ;x300D--halt
